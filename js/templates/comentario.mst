@@ -1,0 +1,25 @@
+{{#comentarios}}
+
+<div class="row comentario">
+  <div class="col-md-12">
+    <div class="panel panel-filled">
+      <div class="panel-heading">
+        <div class="panel-tools">
+          <a class="panel-fecha">{{fecha}}</a>
+          <a class="panel-puntaje"><i class="glyphicon glyphicon-thumbs-up success-icon"></i> <strong>{{puntaje}}</strong></a>
+          <a class="panel-close borrarComentario" data-id="{{id_comentario}}"><i class="glyphicon glyphicon-remove error-icon"></i></a>
+        </div>
+
+        <img alt="usuario_{{usuario}}" class="avatar" height="20" src="{{avatar}}" width="20">
+        <span><i>{{usuario}}</i> comentó:</span>
+      </div>
+      <div class="panel-body">
+        <div class="comentario-text space-left">
+          {{comentario}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{{/comentarios}}
