@@ -23,7 +23,7 @@
                 <div class="form-group col-lg-6"><label for="persona">Persona:</label> <!-- personas que no son deportistas -->
                       <select name="persona" class="form-control">
                           {foreach from=$personas item=persona}
-                          <option value="{$persona["tipodoc"]}..{$persona["nrodoc"]}">{$persona["nombre"]} {$persona["apellido"]}</option>
+                          <option value="{$persona["tipodoc"]}.{$persona["nrodoc"]}">{$persona["nombre"]} {$persona["apellido"]}</option>
                           {/foreach}
                       </select>
                 </div>
@@ -32,7 +32,7 @@
                       <select name="federacion" class="form-control federacion">
                           <option value="0">Ninguna</option>
                           {foreach from=$federaciones item=federacion}
-                          <option value="{$federacion["cdodisciplina"]}">{$federacion["nombre"]} </option>
+                          <option value="{$federacion["cdofederacion"]}.{$federacion["cdodisciplina"]}">{$federacion["nombre"]} </option>
                           {/foreach}
                       </select>
                 </div>
@@ -49,8 +49,8 @@
                       </select>
                 </div>
 
-                <div class="form-group col-lg-6"><label for="categoria">Asociar a competencia:</label>
-                      <select name="categoria" class="form-control">
+                <div class="form-group col-lg-6"><label for="competencia">Asociar a competencia individual:</label>
+                      <select name="competencia" class="form-control">
                           <option value="0">Ninguna</option>
                           {foreach from=$competencias item=competencia}
                           <option value="{$competencia["idcompetencia"]}">{$competencia["nombre"]}</option>
