@@ -52,6 +52,11 @@ class ModelDeportistas extends Model{
     return $federaciones->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  function getEquipos(){
+    $equipos = $this->db->prepare("SELECT * FROM gr18_equipo");
+    $equipos->execute();
+    return $equipos->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
 
  ?>

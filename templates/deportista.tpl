@@ -53,7 +53,9 @@
                       <select name="competencia" class="form-control">
                           <option value="0">Ninguna</option>
                           {foreach from=$competencias item=competencia}
+                          {if $competencia["individual"] == '1'}
                           <option value="{$competencia["idcompetencia"]}">{$competencia["nombre"]}</option>
+                          {/if}
                           {/foreach}
                       </select>
                 </div>

@@ -6,39 +6,13 @@ $(document).ready(function(e){
   addAjax(".nav-home/click", "home", ".listado", 0, 0);
   addAjax(".nav-comp/click", "agregar_competencia", ".listado", 0, 0);
   addAjax(".nav-inscripciones/click", "inscripcion", ".listado", 0, 0);
-  addAjax(".nav-componentes/click", "admin_componentes", ".listado", 0, 0);
-  addAjax(".nav-categorias/click", "admin_categorias", ".listado", 0, 0);
-  addAjax(".nav-consultas/click", "mostrar_consultas", ".listado", 0, 0);
-  addAjax(".nav-contacto/click", "agregar_consulta", ".listado", 0, 0);
-  addAjax(".categorias/click", "filtrar_categoria&categoria=", ".cat-");
+  addAjax(".nav-deportistas/click", "listado_deportistas", ".listado", 0, 0);
+  addAjax(".nav-jueces/click", "listado_jueces", ".listado", 0, 0);
+  addAjax(".selecCompetencia/submit", "listado_deportistas", ".listado", 0, 0);
+  addAjax(".selecJueces/submit", "listado_jueces", ".listado", 0, 0);
+  addAjax(".inscribir/submit", "inscripcion", ".listado", "La inscripción se realizo correctamente", 0);
   addAjax(".addCompetencia/submit", "agregar_competencia", ".listado", "La competencia fué agregada correctamente", 0);
   addAjax(".addDeportista/submit", "agregar_deportista", ".listado", "La competencia fué agregada correctamente", 0);
-  addAjax(".borrarCategoria/submit", "eliminar_categoria&id=", ".listado", "La categoría se eliminó correctamente");
-  addAjax(".editarCategoria/submit", "editar_categoria&id=", ".listado", "La categoría se editó correctamente");
-  addAjax(".addComponente/submit", "agregar_componente", ".listado", "El componente se agregó correctamente", 0);
-  addAjax(".editarComponente/submit", "editar_componente&id=", ".listado", "El componente se editó correctamente");
-  addAjax(".mostrarComponente/click", "mostrar_componente&id=", ".listado", 0, 1, function() {
-    var id_componente = $(".comentarios").attr("data-id");
-    obtenerComentarios(id_componente);
-  });
-  addAjax(".eliminarRol/click", "eliminar_rol&id_rol=", ".listado", "El rol se eliminó correctamente");
-  addAjax(".eliminarComponente/click", "eliminar_componente&id=", ".listado", "El componente se eliminó correctamente");
-  addAjax(".addCategoria/submit", "agregar_categoria", ".listado", "La categoría se agregó correctamente", 0);
-  addAjax(".addUsuario/submit", "agregar_usuario", ".listado", "El usuario se agregó correctamente", 0);
-  addAjax(".addRol/submit", "agregar_rol", ".listado", "El rol fue creado correctamente", 0);
-  addAjax(".agregarComentario", "agregar_comentario", ".listado", "El comentario se agregó correctamente", 0);
-  addAjax(".buscarUsuario/submit", "buscar_usuario&id=", ".listado");
-  addAjax(".eliminarConsulta/click", "eliminar_consulta&id=", ".listado", "La consulta se eliminó correctamente");
-  addAjax(".eliminarUsuario/click", "eliminar_usuario&id=", ".listado", "El usuario se eliminó correctamente");
-  addAjax(".editarUsuario/submit", "editar_usuario&id=", ".listado", "El usuario se editó correctamente");
-  addAjax(".config/click", "configurar_perfil", ".listado",0,0);
-  addAjax(".editarPerfil/submit", "configurar_perfil", ".listado","El perfil se editó correctamente", 0);
-  addAjax(".contacto/submit", "agregar_consulta", ".listado", "La consulta se envió correctamente", 0, function() {
-    $("input, textarea").each(function() {
-      $("input, textarea").val("");
-    });
-  });
-
 
 
 $(document).on('submit', '.agregarComentario', function(ev) {
@@ -52,10 +26,9 @@ $(document).on('submit', '.agregarComentario', function(ev) {
 });
 
 $(document).on('change', '.federacion', function(ev) {
-  ev.preventDefault();
   let valor = $(this).val();
   let input = ".licencia";
-  if(valor != 0){
+  if(valor != 0){ // TODO
     $(input).removeClass("hidden");
     $(input + " input").attr("name", "licencia");
   }
@@ -66,18 +39,35 @@ $(document).on('change', '.federacion', function(ev) {
 });
 
 
-$(document).on('click', '.borrarComentario', function(ev) {
-  ev.preventDefault();
-  var comentario = $(this).parents(".comentario");
-  var id =  $(this).attr("data-id");
-  $.ajax({
-    type: "DELETE",
-    url: 'api/comentarios/' + id,
-    success: function(){
-      comentario.hide("slow", function(){ comentario.remove(); });
+$(document).on('change', '.tipoCompetencia', function(ev) {
+  let valor = $(this).val();
+
+  $(".optCompetencia").each(function() {
+    let opt = $(this);
+    if(opt.attr("tipo") != valor) opt.addClass("hidden");
+    else {
+       $(this).parent().val(opt.val());
+       opt.removeClass("hidden");
     }
   });
+
+  let selectDeportista = ".s_deportista";
+  let selectEquipo = ".s_equipo";
+
+  $(selectDeportista).toggleClass("hidden");
+  $(selectEquipo).toggleClass("hidden");
+  updateSelects("deportista", selectDeportista);
+  updateSelects("equipo", selectEquipo);
+
 });
+
+
+function updateSelects(name, selector) {
+  if ($(selector + ' select').attr('name')) {
+      $(selector + ' select').removeAttr('name');
+  }
+  else $(selector + ' select').attr("name", name);
+}
 
 // Función genérica para ajax
 function addAjax(selector, action, aCargar, msgSuccess, id, extra) {
@@ -113,56 +103,5 @@ function addAjax(selector, action, aCargar, msgSuccess, id, extra) {
     })
   });
 }
-
-// Sección Lista de categorias, se usa esto para mostrar los componentes en esa categoria
-$(document).on("click", ".categorias", function() {
-  $(this).parent().find("div").toggle();
-});
-
-// Filtro de categorias obtenido por base de datos
-$(document).on('change', '.categorias', function() {
-  var valor = $(this).val();
-  var url = "index.php?action=filtrar_categoria&id=" + valor;
-  if(valor == 0) url = "index.php?action=home";
-  $.get(url, function(data) {
-    if(valor == 0) $(".listado").html(data)
-    else $(".contenido-componentes").html(data);
-  });
-});
-
-
-$(document).on('change', '.roles', function() {
-  var id = $(this).val();
-  var url = "index.php?action=admin_roles&filtrar_rol=" + id;
-  $.get(url, function(data) {
-    $(".listado").html(data);
-  });
-});
-
-$(document).on('click', '.guardarUsuario', function(ev) {
-  ev.preventDefault();
-  var idUsuario = $(this).attr("data-id");
-  var inputs = $(this).parents(".usuario").find(".input-e");
-  var usuario = {
-    username: $(inputs[0]).val(),
-    email: $(inputs[1]).val(),
-    rol: $(inputs[2]).find(":selected").attr("data-id")
-  }
-  $.post( "index.php?action=editar_usuario&id=" + idUsuario, usuario, function( data ) {
-    if(data != "") toastr.success("Los datos del usuario fueron actualizados correctamente");
-    else toastr.error("Hubo un error al ejecutar la acción");
-    $(".listado").html(data)
-  });
-});
-
-var cantUsuarios;
-$(document).on('click', '.mostrarMas', function(ev) {
-  ev.preventDefault();
-  cantUsuarios = $(".usuario").length + 2;
-  $.get( "index.php?action=admin_usuarios&cantUsuarios=" + cantUsuarios, function(data) {
-    $(".listado").html(data);
-  });
-});
-
 
 });

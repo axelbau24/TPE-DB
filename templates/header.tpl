@@ -37,9 +37,10 @@
           <li class="nav-comp"><a href="#">Alta de competencias</a></li>
           <li class="nav-inscripciones"><a href="#">Inscripciones</a></li>
 
-           <li class="nav-category"><strong>Listados</strong></li>
+           <li class="nav-category"><strong>Reportes</strong></li>
 
-           <li class="nav-contacto"><a href="#">Test-testt</a></li>
+           <li class="nav-deportistas"><a href="#">Deportistas inscriptos</a></li>
+           <li class="nav-jueces"><a href="#">Jueces competencia</a></li>
 
           <li class="nav-info"><div class="hidden carga"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Cargando datos...</div>
           <div class="m-t-xs">Bases de datos - 2017 - TUDAI<br><strong>Diseñado por:</strong> <br>Bautista Axel <br> Wilgenhoff Florencia</div></li>

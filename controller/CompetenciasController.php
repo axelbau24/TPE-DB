@@ -14,11 +14,26 @@ class CompetenciasController{
     $this->modelDeportistas = new ModelDeportistas();
   }
 
+
+  function listado_deportistas(){
+    $this->view->mostrarListadoDeportistas();
+  }
+
+  function listado_jueces(){
+    $this->view->mostrarListadoJueces();
+  }
+
   function inscripcion(){
     $competencias = $this->model->getCompetencias();
     $deportistas = $this->modelDeportistas->getDeportistas();
+    $equipos = $this->modelDeportistas->getEquipos();
+    // Array ([competencia] => 7 [equipo] => 1 )
+    // Array ([competencia] => 1 [deportista] => DNI.19345244 )
+    if(isset($_POST["competencia"]) && isset($_POST["tipo"]) && (isset($_POST["deportista"]) || isset($_POST["equipo"])) ){
+      // inscribirlos
+    }
 
-    $this->view->mostrarMenuInscripcion($competencias, $deportistas);
+    $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);
   }
 
   function agregar_competencia(){

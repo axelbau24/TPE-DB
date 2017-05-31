@@ -43,16 +43,11 @@ class ModelCompetencias extends Model{
   }
 
   function getCompetencias(){
-    $competencias = $this->db->prepare("SELECT * FROM gr18_competencia WHERE individual = '1'");
+    $competencias = $this->db->prepare("SELECT * FROM gr18_competencia");
     $competencias->execute();
     return $competencias->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  function getEquipos(){
-    $equipos = $this->db->prepare("SELECT * FROM gr18_equipo");
-    $equipos->execute();
-    return $equipos->fetchAll(PDO::FETCH_ASSOC);
-  }
 
 }
 

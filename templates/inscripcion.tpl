@@ -20,30 +20,36 @@
             Nueva inscripcion
           </div>
           <div class="panel-body">
-              <form class="contacto" method="post">
+              <form class="inscribir" method="post">
               <div class="row">
+                <div class="form-group col-lg-6"><label for="disciplina">Tipo de inscripcion:</label>
+                      <select name="tipo" class="form-control tipoCompetencia">
+                          <option value="1">Individual</option>
+                          <option value="0">Grupal</option>
+                      </select>
+                </div>
+
+
                 <div class="form-group col-lg-6"><label for="jueces">Competencia:</label>
-                    <div class="form-group">
                       <select name="competencia" class="form-control">
                           {foreach from=$competencias item=competencia}
-                          <option value="{$competencia["idcompetencia"]}">{$competencia["nombre"]}</option>
-                          {/foreach}
-                      </select>
-                    </div>
-                </div>
-
-                <div class="form-group col-lg-6"><label for="disciplina">Deportista:</label>
-                      <select name="deportista" class="form-control">
-                          {foreach from=$deportistas item=deportista}
-                          <option value="{$deportista["tipoDoc"]}.{$deportista["nroDoc"]}">{$deportista["nombre"]} {$deportista["apellido"]}</option>
+                          <option class="optCompetencia {if $competencia["individual"] == '0'}hidden{/if}" tipo="{$competencia["individual"]}" value="{$competencia["idcompetencia"]}">{$competencia["nombre"]}</option>
                           {/foreach}
                       </select>
                 </div>
 
-                <div class="form-group col-lg-6"><label for="disciplina">Equipo:</label>
+                <div class="form-group s_deportista col-lg-6"><label for="disciplina">Deportista:</label>
                       <select name="deportista" class="form-control">
                           {foreach from=$deportistas item=deportista}
-                          <option value="{$deportista["tipoDoc"]}.{$deportista["nroDoc"]}">{$deportista["nombre"]} {$deportista["apellido"]}</option>
+                          <option value="{$deportista["tipodoc"]}.{$deportista["nrodoc"]}">{$deportista["nombre"]} {$deportista["apellido"]}</option>
+                          {/foreach}
+                      </select>
+                </div>
+
+                <div class="hidden s_equipo form-group col-lg-6"><label for="disciplina">Equipo:</label>
+                      <select class="form-control">
+                          {foreach from=$equipos item=equipo}
+                          <option value="{$equipo["id"]}">{$equipo["nombre"]}</option>
                           {/foreach}
                       </select>
                 </div>
