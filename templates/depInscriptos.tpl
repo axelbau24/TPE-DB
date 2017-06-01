@@ -20,29 +20,28 @@
         <div class="col-md-12">
           <div class="panel panel-filled">
             <div class="panel-heading">
-              <form class="selecCompetencia form-inline" method="post">
+              <form class="getCompetencias form-inline" method="post">
                 <h4>Seleccione competencia:</h4>
-                <div class="form-group">
-                      <select name="competencia" class="form-control">
-                          <option value="0">Ninguna</option>
-                          <option value="1">Competencia 1</option>
-                          <option value="2">Competencia 2</option>
-                          <option value="3">Competencia 3</option>
-                          <option value="4">Competencia 4</option>
+                <div class="form-group"> 
+                      <select name="competencias" class="form-control">
+                          {foreach from=$competencias item=competencia}
+                          <option value="{$competencia["idCompetencia"]}">{$competencia["nombre"]}</option>
+                          {/foreach}
                       </select>
+                </div>
                 </div>
                   <button type="submit" class="btn btn-default">Enviar</button>
                 </form>
 
                 <br>
                 <div class="table-responsive">
-                  <table class="table">
+                  <table class="table" name="persona"> 
                     <thead>
                       <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Dato 1</th>
-                        <th>Dato 2</th>
+                        <th>{$persona["nombre"]}</th>
+                        <th>{$persona["apellido"]}</th>
+                        <th>$persona["tipodoc"]}</th>
+                        <th>{$persona["nrodoc"]}</th>
                       </tr>
                     </thead>
                     <tbody>

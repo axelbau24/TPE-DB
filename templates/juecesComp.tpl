@@ -24,11 +24,9 @@
                 <h4>Juez:</h4>
                 <div class="form-group">
                       <select name="juez" class="form-control">
-                          <option value="0">Ninguno</option>
-                          <option value="dni.26236">Pablo</option>
-                          <option value="dni.12351">Ricardo</option>
-                          <option value="dni.23523">Alguien</option>
-                          <option value="dni.73473">Jose</option>
+                          {foreach from=$jueces item=juez}
+                          <option value="{$juez["tipodoc"]}.{$persona["nrodoc"]}">{$persona["nombre"]} {$persona["apellido"]}</option>
+                          {/foreach}
                       </select>
                 </div>
                   <button type="submit" class="btn btn-default">Enviar</button>
@@ -39,10 +37,10 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Nombre Competencia</th>
-                        <th>Otro dato</th>
-                        <th>Dato 1</th>
-                        <th>Dato 2</th>
+                        <th>{$competencia["nombre"]}</th>
+                        <th>{$competencia["fecha"]}</th>
+                        <th>{$competencia["cdoDisciplina"]}</th>
+                        <th>{$competencia["web"]}</th>
                       </tr>
                     </thead>
                     <tbody>
