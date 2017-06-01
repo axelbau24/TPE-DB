@@ -1,6 +1,7 @@
 <?php
 include_once("view/ViewCompetencias.php");
 include_once("models/ModelCompetencias.php");
+include_once("models/ModelDeportistas.php");
 
 class CompetenciasController{
 
@@ -16,13 +17,18 @@ class CompetenciasController{
 
 
   function listado_deportistas(){
-    $this->view->mostrarListadoDeportistas();
+    $deportistas = $this->modelDeportistas->getDepInscriptos($idCompetencia);
+    $competencias = $this->modelCompetencias->getCompetencias();
+    $this->view->mostrarListadoDeportistas($deportistas,$competencias);
   }
 
   function listado_jueces(){
+    $juez = $this->modelCompetencias-getJuezComIncriptos();
     $this->view->mostrarListadoJueces();
   }
+  function selectJuezCompInscriptos(){
 
+  }
   function inscripcion(){
     $competencias = $this->model->getCompetencias();
     $deportistas = $this->modelDeportistas->getDeportistas();
@@ -30,7 +36,7 @@ class CompetenciasController{
     // Array ([competencia] => 7 [equipo] => 1 )
     // Array ([competencia] => 1 [deportista] => DNI.19345244 )
     if(isset($_POST["competencia"]) && isset($_POST["tipo"]) && (isset($_POST["deportista"]) || isset($_POST["equipo"])) ){
-      // inscribirlos
+      $deportistas = $this->modelDeportistas->addDeportistaAsociar($deportista, $idCompetencia);
     }
 
     $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);

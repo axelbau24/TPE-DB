@@ -10,7 +10,11 @@ class ModelDeportistas extends Model{
     $deportistas->execute();
     return $deportistas->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  function getDepInscriptos($idCompetencia){
+    $deportistas = $this->db->prepare("SELECT d.*, p.nombre, p.apellido, p.tipoDoc, p.nroDoc  FROM GR18_persona p NATURAL JOIN GR18_deportista d  NATURAL JOIN GR18_inscripcion i AND WHERE idCompetencia = ?");
+    $deportistas->execute();
+    return $deportistas->fetchAll(PDO::FETCH_ASSOC);
+  }
   function addDeportista($deportista){
     $deportistas = $this->db->prepare("INSERT INTO GR18_Deportista VALUES(?, ?, ?, to_date(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?)");
     $deportistas->execute($deportista);

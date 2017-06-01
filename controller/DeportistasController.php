@@ -27,8 +27,7 @@ class DeportistasController{
   function iniciar() {
     $this->view->mostrarHome();
   }
-
-  function agregar_deportista(){
+    function agregar_deportista(){
     if(isset($_POST["persona"]) && isset($_POST["federacion"]) && isset($_POST["categoria"]) && isset($_POST["competencia"])){
         $datosPersona = explode(".", $_POST["persona"]);
         $categoria = explode(".",$_POST["categoria"]);

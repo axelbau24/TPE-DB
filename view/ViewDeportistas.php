@@ -15,7 +15,6 @@ class ViewDeportistas {
     $this->smarty->assign("competencias", $competencias);
     $this->smarty->display("deportista.tpl");
   }
-
   function mostrarHome(){
     $this->smarty->display("header.tpl");
   }

@@ -10,10 +10,14 @@ class ViewCompetencias {
 
 
   function mostrarListadoDeportistas(){
+    $this->smarty->assign("deportistas", $deportistas);
+    $this->smarty->assign("competencias", $competencias);
     $this->smarty->display("depInscriptos.tpl");
   }
 
   function mostrarListadoJueces(){
+    $this->smarty->assign("jueces", $jueces);
+    $this->smarty->assign("competencias", $competencias);
     $this->smarty->display("juecesComp.tpl");
   }
 

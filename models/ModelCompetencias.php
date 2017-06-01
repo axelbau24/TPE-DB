@@ -41,7 +41,11 @@ class ModelCompetencias extends Model{
     $juez->execute(array($idCompetencia, $_juez["tipodoc"], $_juez["nrodoc"]));
 
   }
-
+  function getJuezComIncriptos(){
+     $juez = $this->db->prepare("SELECT * FROM GR18_juez_competencias WHERE tipoDoc = 'DNI' AND nroDoc =?");
+     $juez->execute();
+     return $juez->fetchAll(PDO::FETCH_ASSOC);
+  }
   function getCompetencias(){
     $competencias = $this->db->prepare("SELECT * FROM gr18_competencia");
     $competencias->execute();

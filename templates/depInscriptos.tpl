@@ -20,7 +20,7 @@
         <div class="col-md-12">
           <div class="panel panel-filled">
             <div class="panel-heading">
-              <form class="getCompetencias form-inline" method="post">
+              <form class="getDepInscriptos form-inline" method="post">
                 <h4>Seleccione competencia:</h4>
                 <div class="form-group"> 
                       <select name="competencias" class="form-control">
@@ -35,13 +35,17 @@
 
                 <br>
                 <div class="table-responsive">
-                  <table class="table" name="persona"> 
+                  <table class="table" name="deportista">
+                          {foreach from=$deportistas item=deportista}
+                          
+                          {/foreach}
+                    
                     <thead>
                       <tr>
-                        <th>{$persona["nombre"]}</th>
-                        <th>{$persona["apellido"]}</th>
-                        <th>$persona["tipodoc"]}</th>
-                        <th>{$persona["nrodoc"]}</th>
+                        <th>{$deportista["nombre"]}</th>
+                        <th>{$deportista["apellido"]}</th>
+                        <th>$deportista["tipodoc"]}</th>
+                        <th>{$deportista["nrodoc"]}</th>
                       </tr>
                     </thead>
                     <tbody>
