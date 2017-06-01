@@ -13,90 +13,70 @@
     </div>
   </div>
   <div class="row">
-
     <div class="col-md-12">
-
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-filled">
             <div class="panel-heading">
-              <form class="getDepInscriptos form-inline" method="post">
+              <form class="selecCompetencia form-inline" method="post">
                 <h4>Seleccione competencia:</h4>
-                <div class="form-group"> 
-                      <select name="competencias" class="form-control">
+                <div class="form-group">
+                      <select name="competencia" class="form-control">
                           {foreach from=$competencias item=competencia}
-                          <option value="{$competencia["idCompetencia"]}">{$competencia["nombre"]}</option>
+                          <option value="{$competencia["idcompetencia"]}">{$competencia["nombre"]}</option>
                           {/foreach}
                       </select>
-                </div>
                 </div>
                   <button type="submit" class="btn btn-default">Enviar</button>
                 </form>
 
-                <br>
+
+                {if count($competencia) != 0}
+                <br><br>
+                <h4><span>Deportistas inscriptos en <strong><i>{$competencia["nombre"]}</i></strong></span></h4>
+                {if count($deportistas) == 0} <span>No existen deportistas inscriptos en esta competencia.</span>{/if}
+                {/if}
+
+                {if count($deportistas) > 0}
                 <div class="table-responsive">
-                  <table class="table" name="deportista">
-                          {foreach from=$deportistas item=deportista}
-                          
-                          {/foreach}
-                    
+                  <table class="table">
                     <thead>
                       <tr>
-                        <th>{$deportista["nombre"]}</th>
-                        <th>{$deportista["apellido"]}</th>
-                        <th>$deportista["tipodoc"]}</th>
-                        <th>{$deportista["nrodoc"]}</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Documento</th>
+                        <th>Categoría</th>
+                        <th>Dirección</th>
+                        <th>Localidad</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {foreach from=$deportistas item=deportista}
                       <tr>
                         <td>
-                          <span>asd 1 1</span>
+                          <span>{$deportista["nombre"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 2</span>
+                          <span>{$deportista["apellido"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 3</span>
+                          <span>{$deportista["tipodoc"]} - {$deportista["nrodoc"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 4</span>
+                          <span>{$deportista["cdocategoria"]} - {$deportista["cdodisciplina"]}</span>
+                        </td>
+                        <td>
+                          <span>{$deportista["direccion"]}</span>
+                        </td>
+                        <td>
+                          <span>{$deportista["nombrelocalidad"]}</span>
                         </td>
                       </tr>
-
-                      <tr>
-                        <td>
-                          <span>asd 2 1</span>
-                        </td>
-                        <td>
-                          <span>asd 2 2</span>
-                        </td>
-                        <td>
-                          <span>asd 2 3</span>
-                        </td>
-                        <td>
-                          <span>asd 2 4</span>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>asd 3 1</span>
-                        </td>
-                        <td>
-                          <span>asd 3 2</span>
-                        </td>
-                        <td>
-                          <span>asd 3 3</span>
-                        </td>
-                        <td>
-                          <span>asd 3 4</span>
-                        </td>
-                      </tr>
-
+                      {/foreach}
                     </tbody>
                   </table>
                 </div>
+                {/if}
             </div>
           </div>
         </div>

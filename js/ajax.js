@@ -3,32 +3,21 @@ $(document).ready(function(e){
   $.get( "index.php?action=home", function(data) {$(".listado").html(data);});
 
   // Se agrega /click o /submit para arreglar carga del selector despues de partial render
-  addAjax(".nav-home/click", "home", ".listado", 0, 0);
-  addAjax(".nav-comp/click", "agregar_competencia", ".listado", 0, 0);
-  addAjax(".nav-inscripciones/click", "inscripcion", ".listado", 0, 0);
-  addAjax(".nav-deportistas/click", "listado_deportistas", ".listado", 0, 0);
-  addAjax(".nav-jueces/click", "listado_jueces", ".listado", 0, 0);
-  addAjax(".selecCompetencia/submit", "listado_deportistas", ".listado", 0, 0);
-  addAjax(".selecJueces/submit", "listado_jueces", ".listado", 0, 0);
-  addAjax(".inscribir/submit", "inscripcion", ".listado", "La inscripción se realizo correctamente", 0);
-  addAjax(".addCompetencia/submit", "agregar_competencia", ".listado", "La competencia fué agregada correctamente", 0);
-  addAjax(".addDeportista/submit", "agregar_deportista", ".listado", "La competencia fué agregada correctamente", 0);
-
-
-$(document).on('submit', '.agregarComentario', function(ev) {
-  ev.preventDefault();
-  var comentario = $(this).serialize();
-  $.post( "api/comentarios", comentario, function( comentarios ) {
-    var rendered = Mustache.render(template,{comentarios});
-    $(rendered).hide().appendTo(".comentarios").show("slow");
-    $(".agregarComentario").find("textarea").val("");
-  });
-});
+  addAjax(".nav-home/click", "home");
+  addAjax(".nav-comp/click", "agregar_competencia");
+  addAjax(".nav-inscripciones/click", "inscripcion");
+  addAjax(".nav-deportistas/click", "listado_deportistas");
+  addAjax(".nav-jueces/click", "listado_jueces");
+  addAjax(".selecCompetencia/submit", "listado_deportistas");
+  addAjax(".selecJueces/submit", "listado_jueces");
+  addAjax(".inscribir/submit", "inscripcion", "La inscripción se realizo correctamente");
+  addAjax(".addCompetencia/submit", "agregar_competencia", "La competencia fué agregada correctamente");
+  addAjax(".addDeportista/submit", "agregar_deportista", "La competencia fué agregada correctamente");
 
 $(document).on('change', '.federacion', function(ev) {
   let valor = $(this).val();
   let input = ".licencia";
-  if(valor != 0){ // TODO
+  if(valor != 0){
     $(input).removeClass("hidden");
     $(input + " input").attr("name", "licencia");
   }
@@ -70,35 +59,31 @@ function updateSelects(name, selector) {
 }
 
 // Función genérica para ajax
-function addAjax(selector, action, aCargar, msgSuccess, id, extra) {
+function addAjax(selector, action, msgSuccess) {
   var datos = selector.split("/");
   var tipo = datos[1];
   selector = datos[0];
   $(document).on(tipo, selector, function(ev) {
     $(".carga").toggleClass("hidden");
-    var formData = null;
+
+    var formData = new FormData(this);
     var method = "GET";
-    if (tipo == "submit") {
-      formData = new FormData(this);
-      method = "POST";
-    }
+    if (tipo == "submit") method = "POST";
     ev.preventDefault();
-    id = (id == 0) ? "" : $(this).attr("data-id");
     $.ajax({
       method: method,
-      url: "index.php?action="+ action + id,
+      url: "index.php?action="+ action,
       data: formData,
       contentType: false,
       cache: false,
       processData:false,
       success: function(data) {
-        if(aCargar.indexOf("-") >= 0) $(aCargar + id).html(data);
-        else $(aCargar).html(data);
+        $(".listado").html(data);
         $(".modal-backdrop").remove();
-        if(extra != undefined) extra();
-        if(msgSuccess != undefined && msgSuccess != 0 && data != "") toastr.success(msgSuccess);
         if(data == "") toastr.error("Hubo un error al ejecutar la acción");
+        else if(msgSuccess != undefined) toastr.success(msgSuccess);
         $(".carga").toggleClass("hidden");
+
       }
     })
   });

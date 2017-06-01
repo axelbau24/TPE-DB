@@ -15,30 +15,49 @@ class CompetenciasController{
     $this->modelDeportistas = new ModelDeportistas();
   }
 
-
   function listado_deportistas(){
-    $deportistas = $this->modelDeportistas->getDepInscriptos($idCompetencia);
-    $competencias = $this->modelCompetencias->getCompetencias();
-    $this->view->mostrarListadoDeportistas($deportistas,$competencias);
+    $deportistas = [];
+    $competenciaInscripto = [];
+    $competencias = $this->model->getCompetencias();;
+
+    if(isset($_POST["competencia"])){
+      $deportistas = $this->modelDeportistas->getDepInscriptos($_POST["competencia"]);
+      $competenciaInscripto = $this->model->getCompetencia($_POST["competencia"]);
+    }
+
+    $this->view->mostrarListadoDeportistas($deportistas, $competencias, $competenciaInscripto);
   }
 
   function listado_jueces(){
-    $juez = $this->modelCompetencias-getJuezComIncriptos();
-    $this->view->mostrarListadoJueces();
-  }
-  function selectJuezCompInscriptos(){
+    $competencias = [];
+    $juez = [];
 
+    if(isset($_POST["juez"])){
+      $datosJuez = explode(".", $_POST["juez"]);
+      $competencias = $this->model->getJuezComIncriptos($datosJuez);
+      $juez = $datosJuez;
+    }
+
+    $jueces = $this->model->getJueces();
+
+    $this->view->mostrarListadoJueces($jueces, $competencias, $juez);
   }
+
   function inscripcion(){
     $competencias = $this->model->getCompetencias();
     $deportistas = $this->modelDeportistas->getDeportistas();
     $equipos = $this->modelDeportistas->getEquipos();
-    // Array ([competencia] => 7 [equipo] => 1 )
-    // Array ([competencia] => 1 [deportista] => DNI.19345244 )
-    if(isset($_POST["competencia"]) && isset($_POST["tipo"]) && (isset($_POST["deportista"]) || isset($_POST["equipo"])) ){
-      $deportistas = $this->modelDeportistas->addDeportistaAsociar($deportista, $idCompetencia);
-    }
 
+    if(isset($_POST["competencia"]) && isset($_POST["tipo"])){
+
+      if(isset($_POST["deportista"])){
+          $datosDeportista = explode(".", $_POST["deportista"]);
+          $this->modelDeportistas->asociarDeportista($datosDeportista , $_POST["competencia"]);
+      }
+      else if (isset($_POST["equipo"])){
+          $this->modelDeportistas->asociarEquipo($_POST["equipo"] , $_POST["competencia"]);
+      }
+    }
     $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);
   }
 

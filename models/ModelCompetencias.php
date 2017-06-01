@@ -36,20 +36,33 @@ class ModelCompetencias extends Model{
     return $jueces->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  function getJuez($juez){
+    $j = $this->db->prepare("SELECT j.*, p.nombre, p.apellido FROM gr18_juez j NATURAL JOIN gr18_persona p WHERE tipoDoc = ? AND nroDoc = ?");
+    $j->execute($juez);
+    return $j->fetch(PDO::FETCH_ASSOC);
+  }
+
   function addJuez($idCompetencia, $_juez){
     $juez = $this->db->prepare("INSERT INTO gr18_juezcompetencia VALUES(?, ?, ?)");
     $juez->execute(array($idCompetencia, $_juez["tipodoc"], $_juez["nrodoc"]));
 
   }
-  function getJuezComIncriptos(){
-     $juez = $this->db->prepare("SELECT * FROM GR18_juez_competencias WHERE tipoDoc = 'DNI' AND nroDoc =?");
-     $juez->execute();
+  function getJuezComIncriptos($datosjuez){
+     $juez = $this->db->prepare("SELECT * FROM GR18_juez_competencias WHERE tipoDoc = ? AND nroDoc =?");
+     $juez->execute($datosjuez);
      return $juez->fetchAll(PDO::FETCH_ASSOC);
   }
+
   function getCompetencias(){
     $competencias = $this->db->prepare("SELECT * FROM gr18_competencia");
     $competencias->execute();
     return $competencias->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  function getCompetencia($idCompetencia){
+    $competencias = $this->db->prepare("SELECT * FROM gr18_competencia WHERE idCompetencia = ?");
+    $competencias->execute(array($idCompetencia));
+    return $competencias->fetch(PDO::FETCH_ASSOC);
   }
 
 

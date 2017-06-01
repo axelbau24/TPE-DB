@@ -25,7 +25,7 @@
                 <div class="form-group">
                       <select name="juez" class="form-control">
                           {foreach from=$jueces item=juez}
-                          <option value="{$juez["tipodoc"]}.{$persona["nrodoc"]}">{$persona["nombre"]} {$persona["apellido"]}</option>
+                          <option value="{$juez["tipodoc"]}.{$juez["nrodoc"]}">{$juez["nombre"]} {$juez["apellido"]}</option>
                           {/foreach}
                       </select>
                 </div>
@@ -33,65 +33,44 @@
                 </form>
 
                 <br>
+                {if count($competencias) > 0}
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>{$competencia["nombre"]}</th>
-                        <th>{$competencia["fecha"]}</th>
-                        <th>{$competencia["cdoDisciplina"]}</th>
-                        <th>{$competencia["web"]}</th>
+                        <th>Nombre competencia</th>
+                        <th>Lugar</th>
+                        <th>Fecha</th>
+                        <th>Localidad</th>
+                        <th>Organizador</th>
                       </tr>
                     </thead>
                     <tbody>
+                      {foreach from=$competencias item=competencia}
                       <tr>
                         <td>
-                          <span>asd 1 1</span>
+                          <span>{$competencia["nombre"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 2</span>
+                          <span>{$competencia["nombrelugar"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 3</span>
+                          <span>{$competencia["fecha"]}</span>
                         </td>
                         <td>
-                          <span>asd 1 4</span>
+                          <span>{$competencia["nombrelocalidad"]}</span>
+                        </td>
+                        <td>
+                          <span>{$competencia["organizador"]}</span>
                         </td>
                       </tr>
-
-                      <tr>
-                        <td>
-                          <span>asd 2 1</span>
-                        </td>
-                        <td>
-                          <span>asd 2 2</span>
-                        </td>
-                        <td>
-                          <span>asd 2 3</span>
-                        </td>
-                        <td>
-                          <span>asd 2 4</span>
-                        </td>
-                      </tr>
-
-                      <tr>
-                        <td>
-                          <span>asd 3 1</span>
-                        </td>
-                        <td>
-                          <span>asd 3 2</span>
-                        </td>
-                        <td>
-                          <span>asd 3 3</span>
-                        </td>
-                        <td>
-                          <span>asd 3 4</span>
-                        </td>
-                      </tr>
-
+                      {/foreach}
                     </tbody>
                   </table>
                 </div>
+                {else if count($juez) > 0}
+                <h3>El juez no participó en ninguna competencia.</h3>
+                {/if}
             </div>
           </div>
         </div>

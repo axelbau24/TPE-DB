@@ -11,8 +11,8 @@ class ModelDeportistas extends Model{
     return $deportistas->fetchAll(PDO::FETCH_ASSOC);
   }
   function getDepInscriptos($idCompetencia){
-    $deportistas = $this->db->prepare("SELECT d.*, p.nombre, p.apellido, p.tipoDoc, p.nroDoc  FROM GR18_persona p NATURAL JOIN GR18_deportista d  NATURAL JOIN GR18_inscripcion i AND WHERE idCompetencia = ?");
-    $deportistas->execute();
+    $deportistas = $this->db->prepare("SELECT * FROM GR18_deportistas_inscriptos WHERE idcompetencia = ?");
+    $deportistas->execute(array($idCompetencia));
     return $deportistas->fetchAll(PDO::FETCH_ASSOC);
   }
   function addDeportista($deportista){
@@ -25,8 +25,7 @@ class ModelDeportistas extends Model{
       $this->db->beginTransaction();
       $this->addDeportista($deportista);
 
-      $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,?, ?, null, ?, now())");
-      $inscripcion->execute(array($deportista[0], $deportista[1], $idCompetencia));
+      $this->asociarDeportista($deportista, $idCompetencia);
 
       $this->db->commit();
 
@@ -34,6 +33,15 @@ class ModelDeportistas extends Model{
       $this->db->rollBack();
     }
 
+  }
+
+  function asociarDeportista($deportista, $idCompetencia){
+    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,?, ?, null, ?, now())");
+    $inscripcion->execute(array($deportista[0], $deportista[1], $idCompetencia));
+  }
+  function asociarEquipo($idEquipo, $idCompetencia){
+    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,null, null, ?, ?, now())");
+    $inscripcion->execute(array($idEquipo, $idCompetencia));
   }
 
   function getPersonas(){
