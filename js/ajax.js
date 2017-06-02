@@ -2,7 +2,7 @@ $(document).ready(function(e){
   // Al ingresar a la página muestra el menu de agregar deportistas
   $.get( "index.php?action=home", function(data) {
     $(".listado").html(data);
-    $(".carga").addClass("hidden");
+    if(jQuery.active <= 1) $(".carga").addClass("hidden");
   });
 
   // Se agrega /click o /submit para arreglar carga del selector despues de partial render
