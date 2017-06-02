@@ -10,7 +10,7 @@ abstract class Model{
      $this->db->exec('SET search_path TO '.USER.'');
 
     } catch (PDOException $e) {
-        echo "Error al conectarse a la base de datos";
+        echo "ERROR: Error al conectarse a la base de datos";
         die();
     }
   }

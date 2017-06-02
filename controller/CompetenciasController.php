@@ -48,16 +48,22 @@ class CompetenciasController{
     $deportistas = $this->modelDeportistas->getDeportistas();
     $equipos = $this->modelDeportistas->getEquipos();
     $mensajeDb = null;
+    $fecha = null;
 
     if(isset($_POST["competencia"]) && isset($_POST["tipo"])){
 
+      if(isset($_POST["fecha"])) $fecha = $_POST["fecha"];
+      else $fecha = date("Y-m-d");
+
       if(isset($_POST["deportista"])){
           $datosDeportista = explode(".", $_POST["deportista"]);
-          $mensajeDb = $this->modelDeportistas->asociarDeportista($datosDeportista , $_POST["competencia"]);
+          $mensajeDb = $this->modelDeportistas->asociarDeportista($datosDeportista , $_POST["competencia"], $fecha);
       }
       else if (isset($_POST["equipo"])){
-          $mensajeDb = $this->modelDeportistas->asociarEquipo($_POST["equipo"] , $_POST["competencia"]);
+          $mensajeDb = $this->modelDeportistas->asociarEquipo($_POST["equipo"] , $_POST["competencia"], $fecha);
       }
+
+
     }
 
     if(empty($mensajeDb)) $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);

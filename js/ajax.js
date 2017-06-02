@@ -31,6 +31,13 @@ $(document).on('change', '.federacion', function(ev) {
 });
 
 
+$(document).on('click', '.fechaInsc', function(ev) {
+  let fiClass = ".fechaInscripcion";
+  $(fiClass).parent().toggleClass("hidden");
+  if ($(fiClass).attr('name')) $(fiClass).removeAttr('name');
+  else $(fiClass).attr("name", "fecha");
+});
+
 $(document).on('change', '.tipoCompetencia', function(ev) {
   let valor = $(this).val();
 
@@ -63,14 +70,14 @@ function updateSelects(name, selector) {
 
 // Función genérica para ajax
 function addAjax(selector, action, msgSuccess) {
-  var datos = selector.split("/");
-  var tipo = datos[1];
+  let datos = selector.split("/");
+  let tipo = datos[1];
   selector = datos[0];
   $(document).on(tipo, selector, function(ev) {
     $(".carga").removeClass("hidden");
 
-    var formData = new FormData(this);
-    var method = "GET";
+    let formData = new FormData(this);
+    let method = "GET";
     if (tipo == "submit") method = "POST";
     ev.preventDefault();
     $.ajax({
@@ -81,18 +88,18 @@ function addAjax(selector, action, msgSuccess) {
       cache: false,
       processData:false,
       success: function(data) {
+
         if(!data.includes("ERROR")) {
           $(".listado").html(data);
           if(msgSuccess != undefined) toastr.success(msgSuccess);
         }
         else {
           data = data.replace("ERROR:", "");
-          console.log(data);
           toastr.error(data);
         }
-        $(".carga").addClass("hidden");
+        if(jQuery.active <= 1) $(".carga").addClass("hidden");
       }
-    })
+    });
   });
 }
 

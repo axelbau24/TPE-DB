@@ -161,6 +161,7 @@ td input, td select {position:absolute; top:0; left:0; width:100%;}
   margin: 0 auto;
 }
 .carga{
-color: #32fe00;
-
+  color: #32fe00;
+  font-size: 14px;
+  font-style: italic;
 }

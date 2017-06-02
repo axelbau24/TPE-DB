@@ -35,14 +35,14 @@ class ModelDeportistas extends Model{
 
   }
 
-  function asociarDeportista($deportista, $idCompetencia){
-    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,?, ?, null, ?, now())");
-    $inscripcion->execute(array($deportista[0], $deportista[1], $idCompetencia));
+  function asociarDeportista($deportista, $idCompetencia, $fecha){
+    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,?, ?, null, ?, to_date(?, 'YYYY-MM-DD'))");
+    $inscripcion->execute(array($deportista[0], $deportista[1], $idCompetencia, $fecha));
     return $inscripcion->errorInfo()[2];
   }
-  function asociarEquipo($idEquipo, $idCompetencia){
-    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,null, null, ?, ?, now())");
-    $inscripcion->execute(array($idEquipo, $idCompetencia));
+  function asociarEquipo($idEquipo, $idCompetencia, $fecha){
+    $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,null, null, ?, ?, to_date(?, 'YYYY-MM-DD'))");
+    $inscripcion->execute(array($idEquipo, $idCompetencia, $fecha));
     return $inscripcion->errorInfo()[2];
   }
 
