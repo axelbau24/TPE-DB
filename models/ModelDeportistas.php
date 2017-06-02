@@ -38,10 +38,12 @@ class ModelDeportistas extends Model{
   function asociarDeportista($deportista, $idCompetencia){
     $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,?, ?, null, ?, now())");
     $inscripcion->execute(array($deportista[0], $deportista[1], $idCompetencia));
+    return $inscripcion->errorInfo()[2];
   }
   function asociarEquipo($idEquipo, $idCompetencia){
     $inscripcion = $this->db->prepare("INSERT INTO GR18_Inscripcion VALUES(DEFAULT ,null, null, ?, ?, now())");
     $inscripcion->execute(array($idEquipo, $idCompetencia));
+    return $inscripcion->errorInfo()[2];
   }
 
   function getPersonas(){

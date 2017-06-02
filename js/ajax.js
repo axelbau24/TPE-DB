@@ -1,6 +1,9 @@
 $(document).ready(function(e){
   // Al ingresar a la página muestra el menu de agregar deportistas
-  $.get( "index.php?action=home", function(data) {$(".listado").html(data);});
+  $.get( "index.php?action=home", function(data) {
+    $(".listado").html(data);
+    $(".carga").addClass("hidden");
+  });
 
   // Se agrega /click o /submit para arreglar carga del selector despues de partial render
   addAjax(".nav-home/click", "home");
@@ -12,7 +15,7 @@ $(document).ready(function(e){
   addAjax(".selecJueces/submit", "listado_jueces");
   addAjax(".inscribir/submit", "inscripcion", "La inscripción se realizo correctamente");
   addAjax(".addCompetencia/submit", "agregar_competencia", "La competencia fué agregada correctamente");
-  addAjax(".addDeportista/submit", "agregar_deportista", "La competencia fué agregada correctamente");
+  addAjax(".addDeportista/submit", "agregar_deportista", "El deportista fué agregado correctamente");
 
 $(document).on('change', '.federacion', function(ev) {
   let valor = $(this).val();
@@ -64,7 +67,7 @@ function addAjax(selector, action, msgSuccess) {
   var tipo = datos[1];
   selector = datos[0];
   $(document).on(tipo, selector, function(ev) {
-    $(".carga").toggleClass("hidden");
+    $(".carga").removeClass("hidden");
 
     var formData = new FormData(this);
     var method = "GET";
@@ -78,12 +81,16 @@ function addAjax(selector, action, msgSuccess) {
       cache: false,
       processData:false,
       success: function(data) {
-        $(".listado").html(data);
-        $(".modal-backdrop").remove();
-        if(data == "") toastr.error("Hubo un error al ejecutar la acción");
-        else if(msgSuccess != undefined) toastr.success(msgSuccess);
-        $(".carga").toggleClass("hidden");
-
+        if(!data.includes("ERROR")) {
+          $(".listado").html(data);
+          if(msgSuccess != undefined) toastr.success(msgSuccess);
+        }
+        else {
+          data = data.replace("ERROR:", "");
+          console.log(data);
+          toastr.error(data);
+        }
+        $(".carga").addClass("hidden");
       }
     })
   });

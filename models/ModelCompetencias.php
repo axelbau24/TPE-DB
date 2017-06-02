@@ -13,6 +13,7 @@ class ModelCompetencias extends Model{
   }
 
   function addCompetencia($competencia, $jueces){
+    $comp = null;
     try {
       $this->db->beginTransaction();
       $comp = $this->db->prepare("INSERT INTO gr18_competencia VALUES(DEFAULT, ?, ?, to_date(?, 'YYYY-MM-DD'), ?, ?, ?, ?, to_date(?, 'YYYY-MM-DD'), ?, ?, ?, ?)");
@@ -28,6 +29,8 @@ class ModelCompetencias extends Model{
     } catch (Exception $e) {
       $this->db->rollBack();
     }
+
+    return $comp->errorInfo()[2];
   }
 
   function getJueces(){

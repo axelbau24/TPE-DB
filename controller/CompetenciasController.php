@@ -47,22 +47,26 @@ class CompetenciasController{
     $competencias = $this->model->getCompetencias();
     $deportistas = $this->modelDeportistas->getDeportistas();
     $equipos = $this->modelDeportistas->getEquipos();
+    $mensajeDb = null;
 
     if(isset($_POST["competencia"]) && isset($_POST["tipo"])){
 
       if(isset($_POST["deportista"])){
           $datosDeportista = explode(".", $_POST["deportista"]);
-          $this->modelDeportistas->asociarDeportista($datosDeportista , $_POST["competencia"]);
+          $mensajeDb = $this->modelDeportistas->asociarDeportista($datosDeportista , $_POST["competencia"]);
       }
       else if (isset($_POST["equipo"])){
-          $this->modelDeportistas->asociarEquipo($_POST["equipo"] , $_POST["competencia"]);
+          $mensajeDb = $this->modelDeportistas->asociarEquipo($_POST["equipo"] , $_POST["competencia"]);
       }
     }
-    $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);
+
+    if(empty($mensajeDb)) $this->view->mostrarMenuInscripcion($competencias, $deportistas, $equipos);
+    else $this->view->showError($mensajeDb);
   }
 
   function agregar_competencia(){
     $juecesActuales = $this->model->getJueces();
+    $mensajeDb = null;
 
     if($this->datosValidos()){
       $jueces = [];
@@ -87,11 +91,13 @@ class CompetenciasController{
         empty($_POST["web"]) ? null : $_POST["web"] // Pagina web
       );
 
-      $this->model->addCompetencia($competencia, $jueces);
+      $mensajeDb = $this->model->addCompetencia($competencia, $jueces);
     }
 
     $disciplinas = $this->model->getDisciplinas();
-    $this->view->mostrarMenuAgregar($disciplinas, $juecesActuales);
+    if(empty($mensajeDb)) $this->view->mostrarMenuAgregar($disciplinas, $juecesActuales);
+    else if(count($jueces) == 0) $this->view->showError("ERROR: Debe haber seleccionado al menos un juez");
+    else $this->view->showError("ERROR: Hubo un error");
   }
 
   private function datosValidos(){

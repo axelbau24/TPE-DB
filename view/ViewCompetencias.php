@@ -7,7 +7,9 @@ class ViewCompetencias {
   function __construct(){
     $this->smarty = new Smarty();
   }
-
+  function showError($error){
+    echo $error;
+  }
 
   function mostrarListadoDeportistas($deportistas, $competencias, $competencia){
     $this->smarty->assign("deportistas", $deportistas);

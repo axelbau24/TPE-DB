@@ -42,7 +42,7 @@
            <li class="nav-deportistas"><a href="#">Deportistas inscriptos</a></li>
            <li class="nav-jueces"><a href="#">Jueces competencia</a></li>
 
-          <li class="nav-info"><div class="hidden carga"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Cargando datos...</div>
+          <li class="nav-info"><div class="carga"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Cargando datos...</div>
           <div class="m-t-xs">Bases de datos - 2017 - TUDAI<br><strong>Diseñado por:</strong> <br>Bautista Axel <br> Wilgenhoff Florencia</div></li>
         </ul>
       </nav>
