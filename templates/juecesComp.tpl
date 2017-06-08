@@ -21,7 +21,7 @@
           <div class="panel panel-filled">
             <div class="panel-heading">
               <form class="selecJueces form-inline" method="post">
-                <h4>Juez:</h4>
+                <h4>Seleccione juez:</h4>
                 <div class="form-group">
                       <select name="juez" class="form-control">
                           {foreach from=$jueces item=juez}

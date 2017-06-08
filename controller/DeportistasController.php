@@ -15,6 +15,8 @@ class DeportistasController{
     $this->modelCompetencias = new ModelCompetencias();
   }
 
+  // Funcion principal llamada al cargar la pagina
+  // Que es el alta de deportista y se muestra el menú de creacion
   function home(){
     $personas = $this->model->getPersonas();
     $categorias = $this->model->getCategorias();
@@ -27,28 +29,36 @@ class DeportistasController{
   function iniciar() {
     $this->view->mostrarHome();
   }
-    function agregar_deportista(){
+
+  // Se obtienen todos los datos desde el formulario de agregar deportista y se envian a la base de datos.
+  function agregar_deportista(){
     if(isset($_POST["persona"]) && isset($_POST["federacion"]) && isset($_POST["categoria"]) && isset($_POST["competencia"])){
-        $datosPersona = explode(".", $_POST["persona"]);
-        $categoria = explode(".",$_POST["categoria"]);
-        $fed = explode(".",$_POST["federacion"]);
+      $datosPersona = explode(".", $_POST["persona"]);
+      $categoria = explode(".",$_POST["categoria"]);
+      $fed = explode(".",$_POST["federacion"]);
 
-        $seleccionoFed = $_POST["federacion"] == "0" ? false : true;
+      $seleccionoFed = $_POST["federacion"] == "0" ? false : true;
 
-        $deportista = array(
-            $datosPersona[0], // tipo documento
-            $datosPersona[1], // numero documento
-            $seleccionoFed ? '1' : '0', // si es federado (si se elige una federacion, es si)
-            $seleccionoFed ? date("Y-m-d") : null, // si fue federado, se le agrega la fecha de hoy, sino null
-            isset($_POST["licencia"]) ? $_POST["licencia"] : null, // numero de licencia
-            $categoria[1], // codigo categoria
-            $categoria[0], // codigo disciplina de la categoria
-            $seleccionoFed ? $fed[0] : null, // codigo federacion (si se selecciono)
-            $seleccionoFed ? $fed[1] : null, // codigo discplina de la federacion (si se selecciono)
-        );
-        if($_POST["competencia"] == '0') $this->model->addDeportista($deportista);
-        else $this->model->addDeportistaAsociar($deportista, $_POST["competencia"]);
-        $this->home();
+      $deportista = array(
+        $datosPersona[0], // tipo documento
+        $datosPersona[1], // numero documento
+        $seleccionoFed ? '1' : '0', // si es federado (si se elige una federacion, es si)
+        $seleccionoFed ? date("Y-m-d") : null, // si fue federado, se le agrega la fecha de hoy, sino null
+        isset($_POST["licencia"]) ? $_POST["licencia"] : null, // numero de licencia
+        $categoria[1], // codigo categoria
+        $categoria[0], // codigo disciplina de la categoria
+        $seleccionoFed ? $fed[0] : null, // codigo federacion (si se selecciono)
+        $seleccionoFed ? $fed[1] : null, // codigo discplina de la federacion (si se selecciono)
+      );
+
+      $addError = null;
+      if($_POST["competencia"] == '0') $this->model->addDeportista($deportista);
+      else {
+        $fecha = isset($_POST["fecha"]) ? $_POST["fecha"] : date("Y-m-d");
+        $addError = $this->model->addDeportistaAsociar($deportista, $_POST["competencia"], $fecha);
+      }
+      if(empty($addError)) $this->home();
+      else $this->view->showError($addError);
     }
   }
 

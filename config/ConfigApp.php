@@ -1,7 +1,9 @@
 <?php
 class ConfigApp{
 
-  public static $ACTION = "action";
+  public static $ACTION = "action"; // Action de PHP index.php?action=
+  // Todos los actions utilizados para cargar cada una de las secciones
+  // Ejemplo index.php?action=agregar_competencia
   public static $ACTIONS = [
     'home' =>  "Deportistas",
     'inscripcion' =>  "Competencias",

@@ -1,14 +1,9 @@
 <?php
-require_once('libs/Smarty.class.php');
-class ViewCompetencias {
-
-  private $smarty;
+include_once 'view/View.php';
+class ViewCompetencias extends View{
 
   function __construct(){
-    $this->smarty = new Smarty();
-  }
-  function showError($error){
-    echo $error;
+    parent::__construct();
   }
 
   function mostrarListadoDeportistas($deportistas, $competencias, $competencia){

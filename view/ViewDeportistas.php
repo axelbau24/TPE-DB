@@ -1,11 +1,9 @@
 <?php
-require_once('libs/Smarty.class.php');
-class ViewDeportistas {
-
-  private $smarty;
+include_once 'view/View.php';
+class ViewDeportistas extends View {
 
   function __construct(){
-    $this->smarty = new Smarty();
+    parent::__construct();
   }
 
   function mostrarMenuDeportista($personas, $categorias, $federaciones, $competencias){

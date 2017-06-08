@@ -18,11 +18,6 @@ $(document).ready(function(e){
   });
 
 
-  // Agrego efecto de selección al hacer click en una imagen
-  $(document).on("click", ".img-thumbnail", function(){
-    $(this).toggleClass("check");
-  });
-
   // Configuración plugin de alertas
   toastr.options = {
     "debug": false,

@@ -15,6 +15,8 @@ class CompetenciasController{
     $this->modelDeportistas = new ModelDeportistas();
   }
 
+  // Se muestra el listado de los deportistas inscriptos en alguna competencia
+  // Si no se selecciono competencia, solo se muestra el menú desplegable para elegir la misma.
   function listado_deportistas(){
     $deportistas = [];
     $competenciaInscripto = [];
@@ -28,6 +30,8 @@ class CompetenciasController{
     $this->view->mostrarListadoDeportistas($deportistas, $competencias, $competenciaInscripto);
   }
 
+  // Se muestra el listado de jueces que estuvieron inscriptos en alguna competencia
+  // Si no se selecciono competencia, solo se muestra el menu desplegable
   function listado_jueces(){
     $competencias = [];
     $juez = [];
@@ -43,6 +47,7 @@ class CompetenciasController{
     $this->view->mostrarListadoJueces($jueces, $competencias, $juez);
   }
 
+  // Se obtienen todos los datos desde el formulario para realizar la inscripcion de un equipo o un deportista
   function inscripcion(){
     $competencias = $this->model->getCompetencias();
     $deportistas = $this->modelDeportistas->getDeportistas();
@@ -70,6 +75,8 @@ class CompetenciasController{
     else $this->view->showError($mensajeDb);
   }
 
+  // Se obtienen todos los datos desde el formulario necesarios para crear una competencia
+  // Los jueces son asociados a esta luego de su creacion.
   function agregar_competencia(){
     $juecesActuales = $this->model->getJueces();
     $mensajeDb = null;
@@ -106,6 +113,7 @@ class CompetenciasController{
     else $this->view->showError("ERROR: Hubo un error");
   }
 
+  // Comprueba que los datos del formulario sean los requeridos
   private function datosValidos(){
     return isset($_POST["name"]) && isset($_POST["disciplina"]) && isset($_POST["fecha"]) && isset($_POST["lugar"]) &&
     isset($_POST["localidad"]) && isset($_POST["coberturaTv"]) &&
